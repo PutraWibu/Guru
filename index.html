@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HARI GURU - BU PUJI - XTKJ B <title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #222;
+        color: white;
+        line-height: 1.6;
+        scroll-behavior: smooth;
+    }
+
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: rgba(34,34,34,0.95);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        z-index: 1000;
+    }
+    header h1 { font-size: 24px; }
+    nav { display: flex; gap: 15px; }
+    nav a { color: white; text-decoration: none; font-size: 16px; transition: color 0.3s ease; }
+    nav a:hover { color: #4CAF50; }
+
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 5px;
+        margin-left: 10px;
+    }
+    .hamburger div { width: 25px; height: 3px; background-color: white; }
+
+    #play-music {
+        background-color:#4CAF50;
+        color:white;
+        border:none;
+        padding:8px 15px;
+        border-radius:5px;
+        cursor:pointer;
+        font-size:14px;
+        margin-left:10px;
+    }
+
+    @media(max-width:768px){
+        nav { display:none; flex-direction:column; background-color:#222; position:absolute; top:60px; right:10px; width:200px; padding:10px; border-radius:0 0 0 10px;}
+        nav.active{ display:flex; }
+        .hamburger{ display:flex;}
+    }
+
+    section {
+        padding: 100px 20px 50px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+    }
+    section.active {
+        display: block;
+        opacity: 1;
+    }
+
+    .caption { text-align:center; margin-bottom:20px; font-size:18px; color:#ccc; }
+    .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .gallery-container img { width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); transition: transform 0.3s ease; }
+    .gallery-container img:hover { transform: scale(1.05); }
+
+    footer { text-align:center; padding:15px; background-color:#222; color:white; font-size:14px; }
+
+    /* Profil Section */
+    .hero-image {
+        position: relative;
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+        margin-bottom: 60px;
+    }
+    .hero-image video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    .hero-image::after {
+        content: '';
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background: rgba(0,0,0,0.4);
+    }
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: -50px auto 20px auto;
+        background-color: #121212;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow: hidden;
+        padding: 40px;
+    }
+    .profile-info {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+    .profile-info img {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .profile-info div {
+        flex: 1;
+        max-width: 500px;
+        text-align: left;
+    }
+    .profile-info h2 { font-size: 28px; color: #fff9f9; }
+    .profile-info p { color:#bbb; font-size:16px; margin:5px 0; }
+    .profile-info button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .profile-info button:hover { background-color: #81c784; }
+
+    .social-catalog {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 40px;
+        background-color: #121212;
+    }
+    .social-catalog .card {
+        background-color: #444;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .social-catalog .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .social-catalog .card h3 { font-size: 22px; margin-bottom: 1px; color: #fff; }
+    .social-catalog .card p { font-size: 16px; color: #aaa; margin-bottom: 1px; }
+    .social-catalog .card a { text-decoration: none; color: #4CAF50; font-size: 20px; transition: color 0.3s ease; }
+    .social-catalog .card a:hover { color: #81c784; }
+
+    @media(max-width:768px){
+        .hero-image { height: 22vh; }
+        .profile-info { flex-direction: column; text-align:center; }
+        .profile-info img { margin-bottom: 20px; width:150px; height:150px; }
+        .profile-info div { max-width: 100%; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>TKJB Bu Puji</h1>
+    <nav class="nav-links">
+        <a href="#home">Utama</a>
+        <a href="#kenangan">Kenangan</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#profil">Profil</a>
+    </nav>
+    <div style="display:flex; align-items:center;">
+        <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+        <button id="play-music">Play Music</button>
+    </div>
+</header>
+
+<audio id="background-music" loop>
+    <source src="https://files.catbox.moe/gnd0rn.mp3" type="audio/mp3">
+</audio>
+
+<!-- Halaman Utama -->
+<section id="home">
+    <h2 style="text-align:center;">Selamat Hari Guru, Bu Puji!</h2>
+    <p class="caption">Terima kasih atas dedikasi dan ilmu yang telah Ibu berikan. Semoga hari ini penuh kebahagiaan dan kenangan indah!</p>
+    <div class="gallery-container">
+        <img src="https://files.catbox.moe/nrv4ow.jpg" alt="Foto Kenangan Utama">
+    </div>
+</section>
+
+<!-- Halaman Kenangan -->
+<section id="kenangan">
+    <h2 style="text-align:center;">Kenangan</h2>
+    <p class="caption">Abadikan momen-momen berharga dari hari guru.</p>
+    <div class="gallery-container">
+        <img src="https://files.catbox.moe/nrv4ow.jpg">
+        <img src="https://files.catbox.moe/3wgzb1.jpg">
+        <img src="https://files.catbox.moe/g2gb21.jpg">
+    </div>
+</section>
+
+<!-- Halaman Gallery -->
+<section id="gallery">
+    <h2 style="text-align:center;">Gallery</h2>
+    <p class="caption">Moment yang sempat kami abadikan menjadi kenangan untuk kita semua</p>
+    <div class="gallery-container">
+        <img src="https://files.catbox.moe/5t28wt.jpg">
+        <img src="https://files.catbox.moe/1b2ufv.jpg">
+        <img src="https://files.catbox.moe/39r60q.jpg">
+        <img src="https://files.catbox.moe/a82fi4.jpg">
+        <img src="https://files.catbox.moe/zkoc2b.jpg">
+        <img src="https://files.catbox.moe/5825db.jpg">
+        <img src="https://files.catbox.moe/1bjk5n.jpg">
+        <img src="https://files.catbox.moe/xqgc7u.jpg">
+        <img src="https://files.catbox.moe/66tqnc.jpg">
+    </div>
+</section>
+
+<!-- Halaman Profil Kreator -->
+<section id="profil">
+    <div class="hero-image">
+        <video autoplay muted loop id="background-video">
+            <source src="https://files.catbox.moe/bdh66f.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="container">
+        <div class="profile-info">
+            <img src="https://files.catbox.moe/61da6r.jpeg" alt="Foto Profil">
+            <div>
+                <h2>PutraMods</h2>
+                <p>Saya seorang pelajar yang tertarik dengan coding javascript, html dan css. im Beginner</p>
+                <p><strong>Email:</strong> putramodss@gmail.com</p>
+                <p><strong>Lokasi:</strong> Jepang</p>
+                <p><strong>Status:</strong> Pelajar</p>
+                <p><button onclick="window.location.href='https://whatsapp.com/channel/0029Vb3aSYyAe5VoaeIPcG2H'">Channel</button></p>
+            </div>
+        </div>
+    </div>
+    <div class="social-catalog">
+        <div class="card">
+            <img src="https://files.catbox.moe/lnphaf.jpg" alt="Youtube" style="width: 20%; border-radius: 10px;">
+            <h3>Youtube</h3>
+            <p>Review seputar script bot.</p>
+            <a href="https://youtube.com/@putramods12" target="_blank">Lihat Profil</a>
+        </div>
+        <div class="card">
+            <img src="https://files.catbox.moe/p2eflq.jpg" alt="GitHub" style="width: 20%; border-radius: 10px;">
+            <h3>GitHub</h3>
+            <p>Temukan seputar base script bot free.</p>
+            <a href="https://github.com/PutraWibu" target="_blank">Lihat Profil</a>
+        </div>
+        <div class="card">
+            <img src="https://files.catbox.moe/fx4jfo.jpg" alt="Tiktok" style="width: 20%; border-radius: 10px;">
+            <h3>Tiktok</h3>
+            <p>Konten kreatif semata.</p>
+            <a href="https://tiktok.com/@akubukanwibuu0" target="_blank">Lihat Profil</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2025 PutraMods | Semua Hak Dilindungi
+</footer>
+
+<script>
+    // Hamburger toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.querySelector('nav');
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Single-page navigation dengan fade
+    const sections = document.querySelectorAll('section');
+    const links = document.querySelectorAll('nav a');
+
+    function showSection(id){
+        sections.forEach(sec => sec.classList.remove('active'));
+        const target = document.getElementById(id);
+        if(target) target.classList.add('active');
+    }
+
+    links.forEach(link => {
+        link.addEventListener('click', (e)=>{
+            e.preventDefault();
+            const target = link.getAttribute('href').substring(1);
+            history.pushState(null,'','./'+target);
+            showSection(target);
+        });
+    });
+
+    let path = location.pathname.replace('/','');
+    if(!path || !document.getElementById(path)) path='home';
+    showSection(path);
+
+    window.addEventListener('popstate', ()=>{
+        let path = location.pathname.replace('/','');
+        if(!path || !document.getElementById(path)) path='home';
+        showSection(path);
+    });
+
+    // Play / Pause Music
+    const music = document.getElementById("background-music");
+    const playBtn = document.getElementById("play-music");
+
+    playBtn.addEventListener("click", ()=>{
+        if(music.paused){
+            music.play();
+            playBtn.textContent = "Pause Music";
+        }else{
+            music.pause();
+            playBtn.textContent = "Play Music";
+        }
+    });
+</script>
+
+</body>
+      </html>
